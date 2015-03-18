@@ -64,7 +64,7 @@ public class Screen {
                 if (xp < 0 || xp >= width) continue;
                 
                 //pixels[xp + yp*width] = Sprite.bg.pixels[(x & (Sprite.bg.SIZE-1))+(y & (Sprite.bg.SIZE-1)) * Sprite.bg.SIZE];
-                pixels[xp + yp*width] = aSpriteSheet.pixels[x + y * 600];
+                pixels[xp + yp*width] = aSpriteSheet.pixels[x + y * width];
             }
             }
 

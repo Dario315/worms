@@ -26,7 +26,7 @@ public class Physics {
     
     public boolean gravityUpdate(Worm pWorm){
         for(int i = 21; i < 40; i++){
-            ground = aLevelPhys.pixels[pWorm.returnX() + i - pWorm.returnAnimationState() + (pWorm.returnY() + 40) * aLevelPhys.SIZEX] != -1;
+            ground = aLevelPhys.pixels[(pWorm.returnX()  - pWorm.returnAnimationState())+ i + (pWorm.returnY() + 40) * aLevelPhys.SIZEX] != -1;
         }
         return ground;
     }
