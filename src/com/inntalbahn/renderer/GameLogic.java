@@ -7,6 +7,9 @@
 package com.inntalbahn.renderer;
 
 import com.inntalbahn.renderer.level.Level;
+import static java.lang.Math.cos;
+import static java.lang.Math.tan;
+import java.util.Arrays;
 
 /**
  *
@@ -14,10 +17,11 @@ import com.inntalbahn.renderer.level.Level;
  */
 public class GameLogic {
     private int playercount = 3, teams=2, level, roundtime = 45, mode,playersperteam, activeWorm=2, time = 0;
-    public Worm[] aWorm = new Worm[playercount];     //array für worm assoziation muss public
+    public Worm[] aWorm = new Worm[playercount];
     private Physics aPhysics;
     private Level aLevel;
-    boolean fall = false;                  //flag worm falling
+    boolean fall = false;
+    public boolean[] path = new boolean[600*334];
     
     
     public GameLogic(int mode, int teams, int level, int roundtime, int playercount){
@@ -26,14 +30,13 @@ public class GameLogic {
         this.level=level;
         //this.roundtime=roundtime;
         this.playercount=playercount;
-        aLevel = new Level(level);                  //neues level objekt (parameter = level id)
-        aPhysics = new Physics(aLevel);             //neues physik objekt (paramenter assotiation zu level)
+        aLevel = new Level(level);
+        aPhysics = new Physics(aLevel);
         spawnWorms();
     }
     
     
     public void spawnWorms(){
-        //lese spawn koordinaten aus aLevel.spawns array und erstelle ein worm objekt
         /*
         playersperteam=playercount/teams;
         playersperteam=1;
@@ -51,15 +54,14 @@ public class GameLogic {
         }
         */
         
-        //manuelles erstellen und zuweisen der assotiantionen
         //*
         //aWorm[0] = new Worm(10, 10, 1,0);
-        aWorm[0] = new Worm(400, 100, 1,0);
+        aWorm[0] = new Worm(10, 100, 1,0);
         //aWorm[2] = new Worm(200, 20, 2,2);
         //aWorm[3] = new Worm(80, 40, 2,1);
 
-        aWorm[1] = new Worm(10, 100, 1,0);
-        aWorm[2] = new Worm(260, 100, 1,0);
+        aWorm[1] = new Worm(150, 100, 1,0);
+        aWorm[2] = new Worm(220, 100, 1,0);
         //aWorm[6] = new Worm(130, 20, 2,0);
         //aWorm[7] = new Worm(300, 40, 2,0);
         //*/
@@ -78,8 +80,8 @@ public class GameLogic {
     
     public void moveRight(){
         int override = aPhysics.collisionUpdate(aWorm[activeWorm]), gradient;
-        if(override < -1)gradient = 1;
-        if(override > 1) gradient = 2;
+        if(override < -1)gradient = 2;
+        if(override > 1) gradient = 1;
         else gradient = 0;
         aWorm[activeWorm].wormright(true, override, gradient);
     }
@@ -87,9 +89,7 @@ public class GameLogic {
     public void moveUp(){
         activeWorm++;
         if(activeWorm>(aWorm.length-1))activeWorm=(aWorm.length-1);
-
     }
-        
     
     public void moveDown(){
         activeWorm--;
@@ -106,11 +106,6 @@ public class GameLogic {
             time=0;
             endMove();
         }
-        fall();
-        
-    }
-    
-    public void fall(){
         if(aPhysics.gravityUpdate(aWorm[activeWorm]) == false){
             aWorm[activeWorm].wormfall();
             fall = true;
@@ -121,10 +116,22 @@ public class GameLogic {
                 fall = false;
             }
         }
+        
+        pathtracer(aWorm[activeWorm].returnX(), aWorm[activeWorm].returnY(), 45, 10);
+        
     }
     
     public void endMove(){
         
+    }
+    
+    public void pathtracer(int x, int y, int a, int pwr){
+        Arrays.fill(path, false);
+        for(int xp = x; xp <= 600 ; xp++){
+            int ytemp = (int) -(tan(a)*xp-2/(2*pwr*pwr*cos(a)*cos(a)) * xp * xp) + y;
+            int temp = (x + xp) + ytemp * 600;
+            if(temp <= path.length) path[temp]=true;
+        }
     }
 
 }

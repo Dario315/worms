@@ -14,11 +14,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
-import sun.applet.Main;
 
 /**
  *
@@ -30,14 +26,14 @@ public class Game extends Canvas implements Runnable{
     public static int width = 600;                      //resolution
     public static int height = width / 16*9;            //aspectratio
     public static int scale = 2;                        //Window scale
-    public static String title = "Worms";               //window title
+    public static String title = "Game-Renderer";       //window title
     
     private Thread thread;                              //initiate thread
     private JFrame frame;                               //initiate frame
     private Keyboard key;                               //initiate key handler
-    private GameLogic aGameLogic;                       // assotiation gamelogic
+    private GameLogic aGameLogic;
 
-    private boolean running = false;                    //running flag
+    private boolean running = false;                    //
     
     private int ti = 0;
     
@@ -49,15 +45,13 @@ public class Game extends Canvas implements Runnable{
     ////////////////Constructor/////////////////////
     
     public Game(){
-        Dimension size = new Dimension(width * scale, height *scale); //upscaling
+        Dimension size = new Dimension(width * scale, height *scale);
         setPreferredSize(size);
-        
-        /////////// Erstellen der wichtigsten Objekte/////////////
-        aGameLogic = new GameLogic(0,2,0,0,8);           //neues objekt GameLogic (parameter: level spielerzahl etc)
-        screen = new Screen(width, height, aGameLogic); //neues Objekt screen mit assoziation zu GameLogic
-        frame = new JFrame();                           //frame
-        key = new Keyboard();                           //keyhandler
-        frame.addKeyListener(key);                      //keyhandler für frame 
+        screen = new Screen(width, height);
+        frame = new JFrame();
+        key = new Keyboard();
+        frame.addKeyListener(key);
+        aGameLogic = screen.aGameLogic;
         
     }
 
@@ -108,7 +102,7 @@ public class Game extends Canvas implements Runnable{
         }
     }
     
-    /////////////Bereite nächste Spiel-Frame vor//////////////
+    /////////////Bereite nächste SPiel-Frame vor//////////////
     public void update(){
         key.update();
         aGameLogic.update();
@@ -121,7 +115,7 @@ public class Game extends Canvas implements Runnable{
     ////////////Zeichne Frame/////////////
     
     public void render(){
-        BufferStrategy bs = getBufferStrategy();
+        BufferStrategy bs =getBufferStrategy();
         if(bs == null){
             createBufferStrategy(3);
             return;
@@ -138,25 +132,9 @@ public class Game extends Canvas implements Runnable{
         g.dispose();
         bs.show();
     }
+    
 
-    //funktion zum abspielen von wav dateien
-/*
-public static synchronized void playSound(final String url) {
-  new Thread(new Runnable() {
-    public void run() {
-      try {
-        Clip clip = AudioSystem.getClip();
-        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-          Main.class.getResourceAsStream(url));
-        clip.open(inputStream);
-        clip.start(); 
-      } catch (Exception e) {
-        System.err.println(e.getMessage());
-      }
-    }
-  }).start();
-}
-*/
+    
     public static void main(String[] args) {
         Game game = new Game();
         game.frame.setResizable(false);

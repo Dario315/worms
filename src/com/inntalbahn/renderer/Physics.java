@@ -17,7 +17,6 @@ public class Physics {
     private Level aLevel;
     private SpriteSheet aLevelPhys;
     private boolean ground = false;
-    
     public Physics(Level pLevel){
         aLevel = pLevel;
         aLevelPhys = aLevel.levelPhys;
@@ -25,8 +24,11 @@ public class Physics {
     
     
     public boolean gravityUpdate(Worm pWorm){
-        for(int i = 21; i < 40; i++){
-            ground = aLevelPhys.pixels[pWorm.returnX() + i - pWorm.returnAnimationState() + (pWorm.returnY() + 40) * aLevelPhys.SIZEX] != -1;
+        for(int i = 21; i < 41; i++){
+            if(aLevelPhys.pixels[pWorm.returnX() + i + (pWorm.returnY() + 40) * aLevelPhys.SIZEX] != -1){
+                ground = true;
+            }
+            else ground = false;
         }
         return ground;
     }
@@ -35,12 +37,12 @@ public class Physics {
         int re=0;
         if(pWorm.returnDir() == false){
             for(int i = 16; i < 40; i++){
-                if(aLevelPhys.pixels[pWorm.returnX() + 23 - (pWorm.returnAnimationState()) + (pWorm.returnY() + i) * aLevelPhys.SIZEX] != -1)re++; //pWorm.returnAnimationState()
+                if(aLevelPhys.pixels[pWorm.returnX() + 23 - 0 + (pWorm.returnY() + i) * aLevelPhys.SIZEX] != -1)re++; //pWorm.returnAnimationState()
             }
         }
         else{
             for(int i = 16; i < 40; i++){
-                if(aLevelPhys.pixels[pWorm.returnX() + 40 + (pWorm.returnAnimationState())+ (pWorm.returnY() + i) * aLevelPhys.SIZEX] != -1)re++; //pWorm.returnAnimationState()
+                if(aLevelPhys.pixels[pWorm.returnX() + 40 - 0 + (pWorm.returnY() + i) * aLevelPhys.SIZEX] != -1)re++; //pWorm.returnAnimationState()
             }
         }
         return re;

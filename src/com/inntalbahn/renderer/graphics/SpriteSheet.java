@@ -23,9 +23,9 @@ public class SpriteSheet {
     public final int SIZEX;
     public final int SIZEY;
     public final int TILESIZE;
-    public int[] pixels;                        //muss für die screen klasse frei zugänglich sein
-    private int alpha;                          //transparenz farbe, wird als durchsichtig gerendert
-    public static SpriteSheet[] wormASprite = new SpriteSheet[50]; //neuer array für verschiedene Sprite objekte der worms
+    public int[] pixels;
+    int alpha;
+    public static SpriteSheet[] wormASprite = new SpriteSheet[50]; 
     
     
     //public static SpriteSheet bgsheet = new SpriteSheet("/com/inntalbahn/renderer/res/textures/bg.png", 256, 256);
