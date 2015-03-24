@@ -66,7 +66,7 @@ public class Worm {
             }
             if(ti>=(60/25) && dir == false){
                 dir = true;
-                posx = posx - 8 / scale;                    //position offset nach Richtungsänderung / kleienerer Wenderadius
+                posx = posx - 8 / scale;                    	//position offset nach Richtungsänderung / kleienerer Wenderadius
                 animationT=1;
             }
     }

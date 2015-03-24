@@ -17,7 +17,7 @@ public class GameLogic {
     public Worm[] aWorm = new Worm[playercount];     //array für worm assoziation muss public
     private Physics aPhysics;
     private Level aLevel;
-    boolean fall = false;                  //flag worm falling
+    boolean fall = false;                 	 //flag worm falling
     
     
     public GameLogic(int mode, int teams, int level, int roundtime, int playercount){
