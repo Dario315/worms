@@ -7,6 +7,7 @@
 package com.inntalbahn.renderer;
 
 
+
 /**
  *
  * @author Usr
@@ -33,17 +34,17 @@ public class Worm {
                dir=false;
                 ti=0;
                 posy = posy - yOverride;
-                if(unblocked == false)posx++;
+                if(unblocked == false || posx < -10)posx++;
                 if(animationT==14){
                     animationT=1;
-                    if(unblocked)posx = posx - (10 / scale);
+                    if(unblocked || posx > -10)posx = posx - (10 / scale);
                     else posx = posx - (13 / scale);
                     //playSound("/com/inntalbahn/renderer/res/sounds/walk3.wav");
                 }
             }
             if(ti>=(60/25) && dir){
                 dir = false;
-                posx = posx + 8 / scale;                    //position offset nach Richtungsänderung / kleienerer Wenderadius
+                posx = posx + 8 / scale;
                 animationT=1;
             }
     }
@@ -56,17 +57,17 @@ public class Worm {
                 dir=true;
                 ti=0;
                 posy = posy - yOverride;
-                if(unblocked == false)posx--;
+                if(unblocked == false || posx > 540)posx--;
                 if(animationT==14){
                     animationT=1;
-                    if(unblocked)posx = posx + (10 / scale);
+                    if(unblocked || posx < 540)posx = posx + (10 / scale);
                     else posx = posx + (13 / scale);
                     //playSound("/com/inntalbahn/renderer/res/sounds/walk3.wav");
                 }
             }
             if(ti>=(60/25) && dir == false){
                 dir = true;
-                posx = posx - 8 / scale;                    	//position offset nach Richtungsänderung / kleienerer Wenderadius
+                posx = posx - 8 / scale;
                 animationT=1;
             }
     }
@@ -78,7 +79,7 @@ public class Worm {
     public void wormfall(){
         posy++;
         acc++;
-        posy = posy+acc;
+        posy=posy+acc;
     }
     
     public void wormfallImpact(){
